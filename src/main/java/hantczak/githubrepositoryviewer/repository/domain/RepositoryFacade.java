@@ -15,10 +15,10 @@ public class RepositoryFacade {
     }
 
     public Optional<Repository> getRepositoryByName(String userName, String repoName) {
-        return repositoryService.getRepositoryByName(userName,repoName);
+        return repositoryService.getRepositoryByName(userName, repoName);
     }
 
-    public Optional<Long> getSumOfStarsForAllUserRepositories(String userName){
-       return repositoryService.getSumOfStarsForAllUserRepositories(userName);
+    public Optional<Long> getSumOfStarsForAllUserRepositories(String userName) {
+        return repositoryService.getSumOfStarsForAllUserRepositories(userName);
     }
 }

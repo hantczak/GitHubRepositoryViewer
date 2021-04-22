@@ -1,14 +1,10 @@
 package hantczak.githubrepositoryviewer.repository.infrastructure.api;
 
-import hantczak.githubrepositoryviewer.repository.domain.Repository;
-import hantczak.githubrepositoryviewer.repository.domain.RepositoryFacade;
-import hantczak.githubrepositoryviewer.repository.domain.RepositoryResponse;
-import hantczak.githubrepositoryviewer.repository.domain.RepositoryService;
+import hantczak.githubrepositoryviewer.repository.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +21,9 @@ public class RepositoryController {
 
     @GetMapping("/{userName}/repositories")
     public ResponseEntity<RepositoryResponse> getUserRepositories(@PathVariable(value = "userName") String username) {
-        List<Repository> repositories = repositoryFacade.getAllUserRepositories(username);
+        List<Repository> repositories = null;
+
+        repositories = repositoryFacade.getAllUserRepositories(username);
         if (repositories.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
@@ -51,5 +49,20 @@ public class RepositoryController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @ExceptionHandler(InvalidUserNameException.class)
+    ResponseEntity<String> handleInvalidUserNameException(InvalidUserNameException exception) {
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(UserDoesNotExistException.class)
+    ResponseEntity<String> handleUserDoesNotExistException(UserDoesNotExistException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(RepositoryDoesNotExistException.class)
+    ResponseEntity<String> handleRepositoryDoesNotExistException(RepositoryDoesNotExistException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 }

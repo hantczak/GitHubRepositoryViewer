@@ -22,6 +22,7 @@ public class RepositoryMapper {
                 .map(RepositoryMapper::toDto)
                 .collect(Collectors.toList());
     }
+
     public static List<Repository> repositoryDtoListToRepositoryList(List<RepositoryDto> repositories) {
         return repositories.stream()
                 .map(RepositoryMapper::fromDto)
