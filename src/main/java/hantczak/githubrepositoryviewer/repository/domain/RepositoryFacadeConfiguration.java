@@ -1,6 +1,5 @@
 package hantczak.githubrepositoryviewer.repository.domain;
 
-import hantczak.githubrepositoryviewer.repository.infrastructure.api.GithubRepositoriesProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -8,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 public class RepositoryFacadeConfiguration {
 
     @Bean
-    public RepositoryFacade repositoryFacade(){
-        RepositoryInfoAccessInterface githubRepositoriesProvider = new GithubRepositoriesProvider();
-        RepositoryService repositoryService = new RepositoryService(githubRepositoriesProvider);
+    public RepositoryFacade repositoryFacade(RepositoryProvider repositoryProvider) {
+        UserNameValidator userNameValidator = new UserNameValidator();
+        RepositoryService repositoryService = new RepositoryService(repositoryProvider,userNameValidator);
         return new RepositoryFacade(repositoryService);
     }
 }

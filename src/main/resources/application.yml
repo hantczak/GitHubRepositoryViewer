@@ -1,0 +1,2 @@
+spring:
+  urlBase: https://api.github.com/

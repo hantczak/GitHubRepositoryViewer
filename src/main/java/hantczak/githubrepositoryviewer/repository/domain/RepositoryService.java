@@ -4,21 +4,26 @@ import java.util.List;
 import java.util.Optional;
 
 public class RepositoryService {
-    private final RepositoryInfoAccessInterface repositoryInfoAccess;
+    private final RepositoryProvider repositoryInfoAccess;
+    private final UserNameValidator userNameValidator;
 
-    public RepositoryService(RepositoryInfoAccessInterface repositoryInfoAccess) {
+    public RepositoryService(RepositoryProvider repositoryInfoAccess, UserNameValidator userNameValidator) {
         this.repositoryInfoAccess = repositoryInfoAccess;
+        this.userNameValidator = userNameValidator;
     }
 
     public List<Repository> getAllUserRepositories(String userName) {
+        userNameValidator.validateUserName(userName);
         return repositoryInfoAccess.getAllUserRepositories(userName);
     }
 
     public Optional<Repository> getRepositoryByName(String userName, String repoName) {
+        userNameValidator.validateUserName(userName);
         return repositoryInfoAccess.getRepositoryByName(userName, repoName);
     }
 
     public Optional<Long> getSumOfStarsForAllUserRepositories(String userName) {
+        userNameValidator.validateUserName(userName);
         List<Repository> repositories = getAllUserRepositories(userName);
         if (repositories.isEmpty()) {
             return Optional.empty();
