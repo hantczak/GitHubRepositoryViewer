@@ -4,13 +4,12 @@ import hantczak.githubrepositoryviewer.repository.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/users")
+@RequestMapping
 public class RepositoryController {
 
     private final RepositoryFacade repositoryFacade;
@@ -19,7 +18,7 @@ public class RepositoryController {
         this.repositoryFacade = repositoryFacade;
     }
 
-    @GetMapping("/{userName}/repositories")
+    @GetMapping("users/{userName}/repositories")
     public ResponseEntity<RepositoryResponse> getUserRepositories(@PathVariable(value = "userName") String username) {
         List<Repository> repositories = null;
 
@@ -27,11 +26,11 @@ public class RepositoryController {
         if (repositories.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(new RepositoryResponse(RepositoryMapper.repositoryListToRepositoryDtoList(repositoryFacade.getAllUserRepositories(username))));
+            return ResponseEntity.ok(new RepositoryResponse(RepositoryMapper.repositoryListToRepositoryDtoList(repositories)));
         }
     }
 
-    @GetMapping("/{userName}/{repositoryName}")
+    @GetMapping("repos/{userName}/{repositoryName}")
     public ResponseEntity<RepositoryDto> getRepositoryByName(@PathVariable(value = "userName") String userName, @PathVariable(value = "repositoryName") String repositoryName) {
         Optional<Repository> repositoryOptional = repositoryFacade.getRepositoryByName(userName, repositoryName);
         if (repositoryOptional.isPresent()) {
@@ -41,7 +40,7 @@ public class RepositoryController {
         }
     }
 
-    @GetMapping("/{userName}/starSum")
+    @GetMapping("users/{userName}/starSum")
     public ResponseEntity<Long> getSumOfStarsForAllUserRepositories(@PathVariable(value = "userName") String userName) {
         Optional<Long> starSumOptional = repositoryFacade.getSumOfStarsForAllUserRepositories(userName);
         if (starSumOptional.isPresent()) {
@@ -57,12 +56,17 @@ public class RepositoryController {
     }
 
     @ExceptionHandler(UserDoesNotExistException.class)
-    ResponseEntity<String> handleUserDoesNotExistException(UserDoesNotExistException exception){
+    ResponseEntity<String> handleUserDoesNotExistException(UserDoesNotExistException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
     @ExceptionHandler(RepositoryDoesNotExistException.class)
-    ResponseEntity<String> handleRepositoryDoesNotExistException(RepositoryDoesNotExistException exception){
+    ResponseEntity<String> handleRepositoryDoesNotExistException(RepositoryDoesNotExistException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(RepositoryProviderException.class)
+    ResponseEntity<String> handleRepositoryProviderException(RepositoryProviderException exception) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
     }
 }
