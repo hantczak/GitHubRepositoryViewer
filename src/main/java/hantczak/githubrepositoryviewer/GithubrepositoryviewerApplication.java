@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class GithubrepositoryviewerApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GithubrepositoryviewerApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GithubrepositoryviewerApplication.class, args);
+    }
 
 }

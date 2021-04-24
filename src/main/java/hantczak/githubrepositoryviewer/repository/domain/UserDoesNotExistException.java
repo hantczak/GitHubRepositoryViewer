@@ -1,6 +1,6 @@
 package hantczak.githubrepositoryviewer.repository.domain;
 
-public class UserDoesNotExistException extends RuntimeException{
+public class UserDoesNotExistException extends RuntimeException {
     private final String username;
 
     public UserDoesNotExistException(String username) {

@@ -31,7 +31,7 @@ public class RepositoryService {
         return Optional.of(listOfRepositoriesToStarSum(repositories));
     }
 
-    private StarSum listOfRepositoriesToStarSum(List<Repository> repositories){
+    private StarSum listOfRepositoriesToStarSum(List<Repository> repositories) {
         Long starSumAsLong = repositories.stream()
                 .mapToLong(Repository::getStarsCount)
                 .sum();

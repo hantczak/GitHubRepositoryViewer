@@ -1,9 +1,6 @@
 package hantczak.githubrepositoryviewer.repository.domain;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
 import java.util.List;
@@ -22,6 +19,7 @@ class RepositoryFacadeTest {
     }
 
     @Nested
+    @DisplayName("Get all user repositories tests:")
     class getAllUserRepositoriesTests {
 
         @BeforeEach
@@ -32,6 +30,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Should return list of repositories")
         void shouldReturnListOfRepositories() {
             //given
             //when
@@ -45,6 +44,7 @@ class RepositoryFacadeTest {
     }
 
     @Nested
+    @DisplayName("Get repository by name tests:")
     class getRepositoryByNameTest {
         private final String repoName = "Advent-of-Code-2020";
 
@@ -56,6 +56,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Should return single repository")
         void shouldReturnSingleRepository() {
             //given
             //when
@@ -68,6 +69,7 @@ class RepositoryFacadeTest {
     }
 
     @Nested
+    @DisplayName("Get sum of stars for all user repositories tests:")
     class getSumOfStarsForAllUserRepositoriesTests {
 
         @BeforeEach
@@ -78,6 +80,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Should return sum of stars for all user repositories")
         void shouldReturnSumOfStarsForAllUserRepositories() {
             //given
             //when
@@ -90,10 +93,12 @@ class RepositoryFacadeTest {
     }
 
     @Nested
+    @DisplayName("InvalidUsernameException should be thrown when:")
     class InvalidUsernameExceptionTest {
         String invalidUsername;
 
         @Test
+        @DisplayName("Username has multiple adjacent hyphens")
         void shouldThrowExceptionWhenUsernameHasMultipleAdjacentHyphens() {
             //given
             invalidUsername = "user--name";
@@ -103,6 +108,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Username starts with a hyphen sign")
         void shouldThrowExceptionWhenUsernameStartsWithHyphenSign() {
             //given
             invalidUsername = "-username";
@@ -112,6 +118,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Username starts with a hyphen sign")
         void shouldThrowExceptionWhenUsernameEndsWithHyphenSign() {
             //given
             invalidUsername = "username-";
@@ -121,6 +128,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Username contains spaces")
         void shouldThrowExceptionWhenUsernameContainsSpaces() {
             //given
             invalidUsername = "user name";
@@ -130,6 +138,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Username contains special chars other than hyphen")
         void shouldThrowExceptionWhenUsernameContainsSpecialCharacters() {
             //given
             invalidUsername = "user!name";
@@ -139,6 +148,7 @@ class RepositoryFacadeTest {
         }
 
         @Test
+        @DisplayName("Username is too long")
         void shouldThrowExceptionWhenUsernameIsLongerThan39Characters() {
             //given
             StringBuilder stringBuilder = new StringBuilder();

@@ -4,7 +4,7 @@ import hantczak.githubrepositoryviewer.repository.domain.StarSum;
 
 public class StarSumMapper {
 
-    public static StarSumDto toDto(StarSum starSum){
+    public static StarSumDto toDto(StarSum starSum) {
         return new StarSumDto(starSum.getStarSum());
     }
 }

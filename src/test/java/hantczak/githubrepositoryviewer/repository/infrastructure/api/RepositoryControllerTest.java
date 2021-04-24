@@ -2,10 +2,7 @@ package hantczak.githubrepositoryviewer.repository.infrastructure.api;
 
 import hantczak.githubrepositoryviewer.GithubrepositoryviewerApplicationTests;
 import hantczak.githubrepositoryviewer.repository.domain.RepositoryResponse;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,7 +15,8 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
     String url;
 
     @Nested
-    class GetUserRepositories {
+    @DisplayName("Get all user repositories tests:")
+    class GetAllUserRepositories {
 
         @BeforeEach
         void setUsername() {
@@ -26,6 +24,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return user repositories")
         void shouldReturnRepositories() {
             //given
             username = "userName";
@@ -41,6 +40,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 500")
         void shouldReturn500ForRepositoryProviderException() {
             //given
             url = buildUrl(username);
@@ -56,6 +56,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 404")
         void shouldReturn404ForNonExistentUserRepoList() {
             //given
             url = buildUrl(username);
@@ -71,6 +72,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return unprocessable entity Exception")
         void shouldReturnUnprocessableEntityExceptionForInvalidUserName() {
             //given
             username = "-invalid--username-";
@@ -100,6 +102,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
     }
 
     @Nested
+    @DisplayName("Get repository by name tests:")
     class GetRepositoryByName {
         String repositoryName;
 
@@ -110,6 +113,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return particular user repository")
         void shouldReturnParticularUserRepository() {
             //given
             stubGithubRepositoriesProviderForSingleRepo(username, repositoryName, 200);
@@ -124,6 +128,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 500")
         void shouldReturn500ForRepositoryProviderException() {
             //given
             url = buildUrl(username, repositoryName);
@@ -139,6 +144,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 404")
         void shouldReturn404ForNonExistentRepository() {
             //given
             stubGithubRepositoriesProviderForSingleRepo(username, repositoryName, 404);
@@ -153,6 +159,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 422")
         void shouldReturnUnprocessableEntityExceptionForInvalidUserName() {
             //given
             String username = "-invalid--username-";
@@ -175,6 +182,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
     }
 
     @Nested
+    @DisplayName("Get star sum tests:")
     class getStarSumTests {
 
         @BeforeEach
@@ -183,6 +191,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return StarSumDto object")
         void shouldReturnStarSumDto() {
             //given
             url = buildUrl(username);
@@ -192,10 +201,11 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
             ResponseEntity<StarSumDto> responseEntity = restTemplate.getForEntity(url, StarSumDto.class);
 
             //then
-            Assertions.assertEquals(new StarSumDto(3L),responseEntity.getBody());
+            Assertions.assertEquals(new StarSumDto(3L), responseEntity.getBody());
         }
 
         @Test
+        @DisplayName("Should return status code 500")
         void shouldReturn500ForRepositoryProviderException() {
             //given
             url = buildUrl(username);
@@ -211,6 +221,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 404")
         void shouldReturn404ForNonExistentUserRepoList() {
             //given
             url = buildUrl(username);
@@ -226,6 +237,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         }
 
         @Test
+        @DisplayName("Should return status code 422")
         void shouldReturnUnprocessableEntityExceptionForInvalidUserName() {
             //given
             username = "-invalid--username-";
