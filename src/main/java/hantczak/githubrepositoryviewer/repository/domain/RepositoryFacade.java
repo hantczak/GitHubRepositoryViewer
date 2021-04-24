@@ -18,7 +18,7 @@ public class RepositoryFacade {
         return repositoryService.getRepositoryByName(userName, repoName);
     }
 
-    public Optional<Long> getSumOfStarsForAllUserRepositories(String userName) {
+    public Optional<StarSum> getSumOfStarsForAllUserRepositories(String userName) {
         return repositoryService.getSumOfStarsForAllUserRepositories(userName);
     }
 }

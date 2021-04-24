@@ -41,10 +41,10 @@ public class RepositoryController {
     }
 
     @GetMapping("users/{userName}/starSum")
-    public ResponseEntity<Long> getSumOfStarsForAllUserRepositories(@PathVariable(value = "userName") String userName) {
-        Optional<Long> starSumOptional = repositoryFacade.getSumOfStarsForAllUserRepositories(userName);
+    public ResponseEntity<StarSumDto> getSumOfStarsForAllUserRepositories(@PathVariable(value = "userName") String userName) {
+        Optional<StarSum> starSumOptional = repositoryFacade.getSumOfStarsForAllUserRepositories(userName);
         if (starSumOptional.isPresent()) {
-            return ResponseEntity.ok(starSumOptional.get());
+            return ResponseEntity.ok(StarSumMapper.toDto(starSumOptional.get()));
         } else {
             return ResponseEntity.notFound().build();
         }

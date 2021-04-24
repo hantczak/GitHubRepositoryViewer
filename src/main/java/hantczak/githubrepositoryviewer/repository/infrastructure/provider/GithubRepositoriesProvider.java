@@ -28,7 +28,6 @@ public class GithubRepositoriesProvider implements RepositoryProvider {
         urlBuilder.append("users/");
         urlBuilder.append(userName);
         urlBuilder.append("/repos");
-        System.out.println("Request from Repositories Provider" + urlBuilder.toString());
 
         GithubRepositoryDto[] repositoryArray;
         try {
