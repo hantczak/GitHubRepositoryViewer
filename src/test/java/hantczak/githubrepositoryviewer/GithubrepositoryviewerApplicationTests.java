@@ -36,7 +36,6 @@ public class GithubrepositoryviewerApplicationTests {
     }
 
     protected void stubGithubRepositoriesProviderForRepoList(String username, int statusCode) {
-        System.out.println("/users/" + username + "/repos");
         String urlBase = "http://localhost:" + "8089";
         wireMockServer.stubFor(get(urlEqualTo("/users/" + username + "/repos"))
                 .willReturn(aResponse()
@@ -47,7 +46,6 @@ public class GithubrepositoryviewerApplicationTests {
     }
 
     protected void stubGithubRepositoriesProviderForSingleRepo(String username,String repoName, int statusCode) {
-        System.out.println("/users/" + username + "/repos");
         String urlBase = "http://localhost:" + "8089";
         wireMockServer.stubFor(get(urlEqualTo("/repos/" + username + "/" + repoName))
                 .willReturn(aResponse()

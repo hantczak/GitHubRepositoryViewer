@@ -21,7 +21,7 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
     class GetUserRepositories {
 
         @BeforeEach
-        void setUsername(){
+        void setUsername() {
             username = "userName";
         }
 
@@ -87,14 +87,13 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         private String buildUrl(String username) {
             String urlBase = "http://localhost:" + port;
             String wholeUrl = urlBase + "/users/" + username + "/repositories";
-            System.out.println("Requesting: " + wholeUrl);
             return wholeUrl;
         }
 
         private RepositoryResponse constructExpectedResponse() {
             RepositoryDto expectedRepositoryDto1 = new RepositoryDto("StudentDataStorage", 1);
             RepositoryDto expectedRepositoryDto2 = new RepositoryDto("Advent-of-Code-2020", 2);
-            List<RepositoryDto> expectedList = List.of(expectedRepositoryDto1,expectedRepositoryDto2);
+            List<RepositoryDto> expectedList = List.of(expectedRepositoryDto1, expectedRepositoryDto2);
             RepositoryResponse expectedResponse = new RepositoryResponse(expectedList);
             return expectedResponse;
         }
@@ -105,8 +104,8 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         String repositoryName;
 
         @BeforeEach
-        void setTestVariables(){
-            username="userName";
+        void setTestVariables() {
+            username = "userName";
             repositoryName = "StudentDataStorage";
         }
 
@@ -171,8 +170,80 @@ class RepositoryControllerTest extends GithubrepositoryviewerApplicationTests {
         private String buildUrl(String username, String repositoryName) {
             String urlBase = "http://localhost:" + port;
             String wholeUrl = urlBase + "/repos/" + username + "/" + repositoryName;
-            System.out.println("Requesting: " + wholeUrl);
             return wholeUrl;
         }
+    }
+
+    @Nested
+    class getStarSumTests {
+
+        @BeforeEach
+        void setUsername() {
+            username = "userName";
+        }
+
+        @Test
+        void shouldReturnStarSumDto() {
+            //given
+            url = buildUrl(username);
+            stubGithubRepositoriesProviderForRepoList(username, 200);
+
+            //when
+            ResponseEntity<StarSumDto> responseEntity = restTemplate.getForEntity(url, StarSumDto.class);
+
+            //then
+            Assertions.assertEquals(new StarSumDto(3L),responseEntity.getBody());
+        }
+
+        @Test
+        void shouldReturn500ForRepositoryProviderException() {
+            //given
+            url = buildUrl(username);
+
+            //when
+            stubGithubRepositoriesProviderForRepoList(username, 500);
+
+            //then
+            HttpServerErrorException exception = Assertions.assertThrows(HttpServerErrorException.class, () -> {
+                restTemplate.getForEntity(url, RepositoryResponse.class);
+            });
+            Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, exception.getStatusCode());
+        }
+
+        @Test
+        void shouldReturn404ForNonExistentUserRepoList() {
+            //given
+            url = buildUrl(username);
+
+            //when
+            stubGithubRepositoriesProviderForRepoList(username, 404);
+
+            //then
+            HttpClientErrorException exception = Assertions.assertThrows(HttpClientErrorException.class, () -> {
+                restTemplate.getForEntity(url, RepositoryResponse.class);
+            });
+            Assertions.assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+        }
+
+        @Test
+        void shouldReturnUnprocessableEntityExceptionForInvalidUserName() {
+            //given
+            username = "-invalid--username-";
+            url = buildUrl(username);
+
+            //when
+            //then
+            HttpClientErrorException exception = Assertions.assertThrows(HttpClientErrorException.class, () -> {
+                restTemplate.getForEntity(url, RepositoryResponse.class);
+            });
+            Assertions.assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, exception.getStatusCode());
+        }
+
+        private String buildUrl(String username) {
+            String urlBase = "http://localhost:" + port;
+            String wholeUrl = urlBase + "/users/" + username + "/starSum";
+            return wholeUrl;
+        }
+
     }
 }
