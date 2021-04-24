@@ -1,0 +1,2 @@
+spring:
+  urlBase: http://localhost:8089/

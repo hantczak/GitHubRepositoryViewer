@@ -1,4 +1,4 @@
-package hantczak.githubrepositoryviewer.repository.infrastructure.api;
+package hantczak.githubrepositoryviewer.repository.infrastructure.provider;
 
 import hantczak.githubrepositoryviewer.repository.domain.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,10 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class GithubRepositoriesProvider implements RepositoryProvider {
@@ -25,13 +28,16 @@ public class GithubRepositoriesProvider implements RepositoryProvider {
         urlBuilder.append("users/");
         urlBuilder.append(userName);
         urlBuilder.append("/repos");
+        System.out.println("Request from Repositories Provider" + urlBuilder.toString());
 
-        RepositoryDto[] repositoryArray;
+        GithubRepositoryDto[] repositoryArray;
         try {
-            ResponseEntity<RepositoryDto[]> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), RepositoryDto[].class);
+            ResponseEntity<GithubRepositoryDto[]> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), GithubRepositoryDto[].class);
             repositoryArray = responseEntity.getBody();
         } catch (HttpClientErrorException.NotFound exception) {
             throw new UserDoesNotExistException(userName);
+        }catch (HttpServerErrorException exception){
+            throw new RepositoryProviderException(exception);
         }
         return mapToRepositories(repositoryArray);
     }
@@ -44,23 +50,23 @@ public class GithubRepositoriesProvider implements RepositoryProvider {
         urlBuilder.append("/");
         urlBuilder.append(repoName);
 
-        RepositoryDto repositoryDto;
+        GithubRepositoryDto githubRepositoryDto;
         try {
-            ResponseEntity<RepositoryDto> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), RepositoryDto.class);
-            repositoryDto = responseEntity.getBody();
+            ResponseEntity<GithubRepositoryDto> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), GithubRepositoryDto.class);
+            githubRepositoryDto = responseEntity.getBody();
         } catch (HttpClientErrorException.NotFound exception) {
             throw new RepositoryDoesNotExistException(userName, repoName);
         } catch (HttpServerErrorException exception) {
             throw new RepositoryProviderException(exception);
         }
-        return Optional.of(RepositoryMapper.fromDto(repositoryDto));
+        return Optional.of(GithubRepositoryMapper.fromDto(githubRepositoryDto));
     }
 
-    private List<Repository> mapToRepositories(RepositoryDto[] repositoryArray) {
-        List<RepositoryDto> repositoryList = new ArrayList<>();
+    private List<Repository> mapToRepositories(GithubRepositoryDto[] repositoryArray) {
+        List<GithubRepositoryDto> repositoryList = new ArrayList<>();
         Arrays.stream(repositoryArray)
                 .forEach(repository -> repositoryList.add(repository));
-        return RepositoryMapper.repositoryDtoListToRepositoryList(repositoryList);
+        return GithubRepositoryMapper.GithubRepositoryDtoListToRepositoryList(repositoryList);
     }
 }
 
