@@ -53,3 +53,13 @@ App has three basic functionalities. It can provide its user with list of all pu
 
 <!-- STATUS -->
 ## 🏗️ Ideas for further development 🏗️
+
+* First idea that comes to my mind is adding possibility to list which users starred a particular repository. In this case it would be wise to create it as a separate, standalone module, with own controller, service and package, named `users`. Implementation of this feature would be trivial, becouse GitHub provides an endpoint for this data:
+
+  `https://api.github.com/repos/{username}/{repositoryName}/stargazers}`
+  
+* Second feature coming to my mind is returning average star number for user repositories. It could use same list of repositories as fuction returning sum of stars. This value could be calculated in service and returned as a field inside UserStarInfoDto object, alongside starSum of the user.
+
+* As GitHub also provides endpoint for getting repositories assigned to an organisation, so it would be a good idea to implement also this feature. The endpoint is:
+
+  `https://api.github.com/orgs/{org}/repos`
