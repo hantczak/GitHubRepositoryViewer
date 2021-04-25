@@ -13,9 +13,9 @@ import org.springframework.web.client.RestTemplate;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 
-@ActiveProfiles("Integration")
+@ActiveProfiles("integration")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class GithubrepositoryviewerApplicationTests {
+public class GitHubRepositoryViewerApplicationTests {
 
     protected RestTemplate restTemplate = new RestTemplate();
 
@@ -36,12 +36,20 @@ public class GithubrepositoryviewerApplicationTests {
     }
 
     protected void stubGithubRepositoriesProviderForRepoList(String username, int statusCode) {
-        String urlBase = "http://localhost:" + "8089";
-        wireMockServer.stubFor(get(urlEqualTo("/users/" + username + "/repos"))
+        wireMockServer.stubFor(get(urlEqualTo("/users/" + username + "/repos?page=1"))
                 .willReturn(aResponse()
                         .withStatus(statusCode)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                         .withBodyFile("/repositoryListResponse.json"))
+        );
+    }
+
+    protected void stubGithubRepositoriesProviderForRepoListEmptySecondPage(String username, int statusCode) {
+        wireMockServer.stubFor(get(urlEqualTo("/users/" + username + "/repos?page=2"))
+                .willReturn(aResponse()
+                        .withStatus(statusCode)
+                        .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                        .withBodyFile("/emptyListResponse.json"))
         );
     }
 

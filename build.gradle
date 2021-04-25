@@ -1,32 +1,29 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.0-SNAPSHOT'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.4.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
 }
 
 group = 'hantczak'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '16'
 
 repositories {
-	mavenCentral()
-	maven { url 'https://repo.spring.io/milestone' }
-	maven { url 'https://repo.spring.io/snapshot' }
+    mavenCentral()
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
-	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.12.3'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-	// https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock
-	testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.2"
-
+    // https://mvnrepository.com/artifact/com.github.tomakehurst/wiremock
+    testImplementation "com.github.tomakehurst:wiremock-jre8:2.27.2"
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

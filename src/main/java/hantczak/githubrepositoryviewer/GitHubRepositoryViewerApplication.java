@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class GithubrepositoryviewerApplication {
+public class GitHubRepositoryViewerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(GithubrepositoryviewerApplication.class, args);
+        SpringApplication.run(GitHubRepositoryViewerApplication.class, args);
     }
 
 }

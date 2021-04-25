@@ -22,7 +22,7 @@ public class RepositoryService {
         return repositoryProvider.getRepositoryByName(userName, repoName);
     }
 
-    public Optional<StarSum> getSumOfStarsForAllUserRepositories(String userName) {
+    public Optional<UserStarInfo> getSumOfStarsForAllUserRepositories(String userName) {
         userNameValidator.validateUserName(userName);
         List<Repository> repositories = getAllUserRepositories(userName);
         if (repositories.isEmpty()) {
@@ -31,10 +31,10 @@ public class RepositoryService {
         return Optional.of(listOfRepositoriesToStarSum(repositories));
     }
 
-    private StarSum listOfRepositoriesToStarSum(List<Repository> repositories) {
+    private UserStarInfo listOfRepositoriesToStarSum(List<Repository> repositories) {
         Long starSumAsLong = repositories.stream()
                 .mapToLong(Repository::getStarsCount)
                 .sum();
-        return new StarSum(starSumAsLong);
+        return new UserStarInfo(starSumAsLong);
     }
 }
