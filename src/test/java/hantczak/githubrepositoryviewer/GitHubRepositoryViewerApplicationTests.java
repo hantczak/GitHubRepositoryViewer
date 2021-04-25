@@ -59,7 +59,7 @@ public class GitHubRepositoryViewerApplicationTests {
                 .willReturn(aResponse()
                         .withStatus(statusCode)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("/singleRepositoryResponse.json"))
+                        .withBodyFile("singleRepositoryResponse.json"))
         );
     }
 }
