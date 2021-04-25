@@ -16,42 +16,52 @@ import java.util.Optional;
 @Component
 public class GithubRepositoriesProvider implements RepositoryProvider {
     private final RestTemplate restTemplate = new RestTemplate();
-    private String urlBase;
+    private final String urlBase;
 
-    public GithubRepositoriesProvider(@Value("${spring.urlBase}") String urlBase) {
+    public GithubRepositoriesProvider(@Value("${github.urlBase}") String urlBase) {
         this.urlBase = urlBase;
     }
 
     public List<Repository> getAllUserRepositories(String userName) {
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(urlBase);
-        urlBuilder.append("users/");
-        urlBuilder.append(userName);
-        urlBuilder.append("/repos");
 
+        List<Repository> repositories = new ArrayList<>();
         GithubRepositoryDto[] repositoryArray;
-        try {
-            ResponseEntity<GithubRepositoryDto[]> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), GithubRepositoryDto[].class);
-            repositoryArray = responseEntity.getBody();
-        } catch (HttpClientErrorException.NotFound exception) {
-            throw new UserDoesNotExistException(userName);
-        } catch (HttpServerErrorException exception) {
-            throw new RepositoryProviderException(exception);
-        }
-        return mapToRepositories(repositoryArray);
+        ResponseEntity<GithubRepositoryDto[]> responseEntity;
+
+        int i = 1;
+        do {
+            try {
+                responseEntity = restTemplate.getForEntity(buildListOfRepositoriesUrl(userName, i), GithubRepositoryDto[].class);
+                repositoryArray = responseEntity.getBody();
+            } catch (HttpClientErrorException.NotFound exception) {
+                throw new UserDoesNotExistException(userName);
+            } catch (HttpServerErrorException exception) {
+                throw new RepositoryProviderException(exception);
+            }
+
+            repositories.addAll(mapToRepositories(repositoryArray));
+            i++;
+        } while (repositoryArray.length > 0);
+
+        return repositories;
+    }
+
+    private String buildListOfRepositoriesUrl(String userName, int pageNumber) {
+        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder.append(urlBase)
+                .append("users/")
+                .append(userName)
+                .append("/repos")
+                .append("?page=")
+                .append(pageNumber);
+        return urlBuilder.toString();
     }
 
     public Optional<Repository> getRepositoryByName(String userName, String repoName) {
-        StringBuilder urlBuilder = new StringBuilder();
-        urlBuilder.append(urlBase);
-        urlBuilder.append("repos/");
-        urlBuilder.append(userName);
-        urlBuilder.append("/");
-        urlBuilder.append(repoName);
 
         GithubRepositoryDto githubRepositoryDto;
         try {
-            ResponseEntity<GithubRepositoryDto> responseEntity = restTemplate.getForEntity(urlBuilder.toString(), GithubRepositoryDto.class);
+            ResponseEntity<GithubRepositoryDto> responseEntity = restTemplate.getForEntity(buildSingleRepositoryUrl(userName, repoName), GithubRepositoryDto.class);
             githubRepositoryDto = responseEntity.getBody();
         } catch (HttpClientErrorException.NotFound exception) {
             throw new RepositoryDoesNotExistException(userName, repoName);
@@ -59,6 +69,16 @@ public class GithubRepositoriesProvider implements RepositoryProvider {
             throw new RepositoryProviderException(exception);
         }
         return Optional.of(GithubRepositoryMapper.fromDto(githubRepositoryDto));
+    }
+
+    private String buildSingleRepositoryUrl(String userName, String repoName) {
+        StringBuilder urlBuilder = new StringBuilder()
+                .append(urlBase)
+                .append("repos/")
+                .append(userName)
+                .append("/")
+                .append(repoName);
+        return urlBuilder.toString();
     }
 
     private List<Repository> mapToRepositories(GithubRepositoryDto[] repositoryArray) {

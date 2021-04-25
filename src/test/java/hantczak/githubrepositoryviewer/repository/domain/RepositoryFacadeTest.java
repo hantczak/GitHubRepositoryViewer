@@ -6,6 +6,7 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.Optional;
 
+@Tag("unit")
 class RepositoryFacadeTest {
     private RepositoryFacade repositoryFacade;
     private RepositoryProvider repositoryProviderMock;
@@ -20,7 +21,7 @@ class RepositoryFacadeTest {
 
     @Nested
     @DisplayName("Get all user repositories tests:")
-    class getAllUserRepositoriesTests {
+    class GetAllUserRepositoriesTests {
 
         @BeforeEach
         void setupMock() {
@@ -45,7 +46,7 @@ class RepositoryFacadeTest {
 
     @Nested
     @DisplayName("Get repository by name tests:")
-    class getRepositoryByNameTest {
+    class GetRepositoryByNameTest {
         private final String repoName = "Advent-of-Code-2020";
 
         @BeforeEach
@@ -70,7 +71,7 @@ class RepositoryFacadeTest {
 
     @Nested
     @DisplayName("Get sum of stars for all user repositories tests:")
-    class getSumOfStarsForAllUserRepositoriesTests {
+    class GetSumOfStarsForAllUserRepositoriesTests {
 
         @BeforeEach
         void setupMock() {
@@ -84,7 +85,7 @@ class RepositoryFacadeTest {
         void shouldReturnSumOfStarsForAllUserRepositories() {
             //given
             //when
-            Optional<StarSum> expectedStarSumOptional = Optional.of(new StarSum(3L));
+            Optional<UserStarInfo> expectedStarSumOptional = Optional.of(new UserStarInfo(3L));
 
             //then
             Assertions.assertEquals(expectedStarSumOptional, repositoryFacade.getSumOfStarsForAllUserRepositories(username));

@@ -5,13 +5,13 @@ import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.util.Objects;
 
-public class StarSumDto {
-    private Long starSum;
+public class UserStarInfoDto {
+    private long starSum;
 
-    public StarSumDto() {
+    public UserStarInfoDto() {
     }
 
-    public StarSumDto(Long starSum) {
+    public UserStarInfoDto(Long starSum) {
         this.starSum = starSum;
     }
 
@@ -27,7 +27,7 @@ public class StarSumDto {
 
     @Override
     public String toString() {
-        return "StarSumDto{" +
+        return "UserStarInfoDto{" +
                 "starSum=" + starSum +
                 '}';
     }
@@ -36,7 +36,7 @@ public class StarSumDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StarSumDto that = (StarSumDto) o;
+        UserStarInfoDto that = (UserStarInfoDto) o;
         return Objects.equals(starSum, that.starSum);
     }
 
