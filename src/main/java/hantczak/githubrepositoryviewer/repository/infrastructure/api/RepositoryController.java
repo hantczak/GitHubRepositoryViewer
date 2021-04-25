@@ -19,7 +19,7 @@ public class RepositoryController {
     }
 
     @GetMapping("users/{userName}/repositories")
-    public ResponseEntity<RepositoryResponse> getUserRepositories(@PathVariable(value = "userName") String username) {
+    public ResponseEntity<RepositoryResponse> getAllUserRepositories(@PathVariable(value = "userName") String username) {
         List<Repository> repositories = null;
 
         repositories = repositoryFacade.getAllUserRepositories(username);

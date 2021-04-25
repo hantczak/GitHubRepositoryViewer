@@ -2,10 +2,7 @@ package hantczak.githubrepositoryviewer.repository.infrastructure.provider;
 
 import hantczak.githubrepositoryviewer.GithubrepositoryviewerApplicationTests;
 import hantczak.githubrepositoryviewer.repository.domain.*;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -23,9 +20,11 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
     }
 
     @Nested
+    @DisplayName("Get all user repositories tests:")
     class getAllUserRepositoriesTests {
 
         @Test
+        @DisplayName("Should return list of user repositories")
         void shouldReturnUserRepositories() {
             //given
             List<Repository> expectedRepositoryList = constructExpectedRepositoryList();
@@ -39,6 +38,7 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
         }
 
         @Test
+        @DisplayName("Should return status code 404")
         void shouldReturn404ForNonExistentUser() {
             //given
             stubGithubRepositoriesProviderForRepoList(username, 404);
@@ -49,6 +49,7 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
         }
 
         @Test
+        @DisplayName("Should throw RepositoryProviderException")
         void shouldReturnRepositoryProviderException() {
             //given
             stubGithubRepositoriesProviderForRepoList(username, 500);
@@ -67,10 +68,12 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
     }
 
     @Nested
+    @DisplayName("Get repository by name tests:")
     class getRepositoryByNameTests {
         private final String repositoryName = "StudentDataStorage";
 
         @Test
+        @DisplayName("Should return single repository object")
         void shouldReturnParticularUserRepository() {
             //given
             stubGithubRepositoriesProviderForSingleRepo(username, repositoryName, 200);
@@ -83,6 +86,7 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
         }
 
         @Test
+        @DisplayName("Should return status code 404")
         void shouldReturn404ForNonExistentRepo() {
             //given
             stubGithubRepositoriesProviderForSingleRepo(username, repositoryName, 404);
@@ -94,6 +98,7 @@ class GithubRepositoriesProviderTest extends GithubrepositoryviewerApplicationTe
         }
 
         @Test
+        @DisplayName("Should throw RepositoryProviderException")
         void shouldReturnRepositoryProviderException() {
             //given
             stubGithubRepositoriesProviderForSingleRepo(username, repositoryName, 500);

@@ -35,7 +35,7 @@ public class GithubRepositoriesProvider implements RepositoryProvider {
             repositoryArray = responseEntity.getBody();
         } catch (HttpClientErrorException.NotFound exception) {
             throw new UserDoesNotExistException(userName);
-        }catch (HttpServerErrorException exception){
+        } catch (HttpServerErrorException exception) {
             throw new RepositoryProviderException(exception);
         }
         return mapToRepositories(repositoryArray);
