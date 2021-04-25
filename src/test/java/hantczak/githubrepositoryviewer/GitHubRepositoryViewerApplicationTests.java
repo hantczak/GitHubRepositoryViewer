@@ -40,7 +40,7 @@ public class GitHubRepositoryViewerApplicationTests {
                 .willReturn(aResponse()
                         .withStatus(statusCode)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("/repositoryListResponse.json"))
+                        .withBodyFile("repositoryListResponse.json"))
         );
     }
 
@@ -49,7 +49,7 @@ public class GitHubRepositoryViewerApplicationTests {
                 .willReturn(aResponse()
                         .withStatus(statusCode)
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-                        .withBodyFile("/emptyListResponse.json"))
+                        .withBodyFile("emptyListResponse.json"))
         );
     }
 
