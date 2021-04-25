@@ -12,6 +12,7 @@ GitHub repository viewer is an app allowing quick preview of basic information a
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [JUnit 5](https://junit.org/junit5/)
 * [Mockito](https://site.mockito.org/)
+* [WireMock](http://wiremock.org/)
 
 
 <!-- INSTALLATION AND USAGE -->
