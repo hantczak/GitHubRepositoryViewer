@@ -49,12 +49,12 @@ App has three basic functionalities. It can provide its user with list of all pu
 
 * GET summed number of stars from all user repositories
 
-  `http://localhost:8080/users/{userName}/repositories`
+  `http://localhost:8080/users/{userName}/starSum`
 
 <!-- REMARKS -->
 ## ⚠️ Remarks 
 
-* I've decided to add functionality regarding searching for single repository, since it was natural for me to enable user to not only obtain a List of repositories, but also a single one that he was searching for.
+* I've decided to add functionality regarding searching for single repository, since it was natural for me to enable user to not only obtain a list of repositories, but also a single one that he was searching for.
 
 * Validator used to validate usernames before connecting to GitHub API was created to omit unnecessary requests to API, that would anyway return status code 404. I assumed, that if username is not a valid one, it cannot be searched for in my application. I could not find rules for creating valid usernames in GitHub documentation, however the rules are listed out on the Sign Up screen.
 
