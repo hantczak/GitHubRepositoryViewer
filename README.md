@@ -1,4 +1,4 @@
-# GitHuRepositoryViewer
+# GitHubRepositoryViewer
 <!-- ABOUT THE PROJECT -->
 ## 🎓 About The Project 🎓
 GitHub repository viewer is an app allowing quick preview of basic information about repositories. App itself is gaining data concerning repositories from github-provided rest API endpoints, through REST template. Application uses HTTP protocool to both send data to the user, and retrieve it from GitHub. During development I did my best to follow both Clean Code and SOLID principles.
