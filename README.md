@@ -5,8 +5,8 @@ GitHub repository viewer is an app allowing quick preview of basic information a
 
 <!-- TECHNOLOGIES USED -->
 ## 🔨  Technologies used 
-* Java
-* Gradle
+* [Java](https://www.java.com/)
+* [Gradle](https://gradle.org/)
 * [Spring Boot](https://spring.io/projects/spring-boot)
 * [JUnit 5](https://junit.org/junit5/)
 * [Mockito](https://site.mockito.org/)
@@ -15,7 +15,7 @@ GitHub repository viewer is an app allowing quick preview of basic information a
 <!-- PREREQUISITES -->
 ## ⚙️Prerequisites
 * Java 16
-* Gradle 7.0
+* Gradle
 
 <!-- INSTALLATION AND USAGE -->
 ## 🧭 Installation 
@@ -69,7 +69,7 @@ App has three basic functionalities. It can provide its user with list of all pu
 
   `https://api.github.com/repos/{username}/{repositoryName}/stargazers}`
   
-* Second feature coming to my mind is returning average star number for user repositories. It could use same list of repositories as fuction returning sum of stars. This value could be calculated in service and returned as a field inside UserStarInfoDto object, alongside userStarInfo of the user.
+* Second feature coming to my mind is returning average star number for user repositories. It could use same list of repositories as fuction returning sum of stars. This value could be calculated in service and returned as a field inside UserStarInfoDto object, alongside sum of stars of the user.
 
 * As GitHub also provides endpoint for getting repositories assigned to an organisation, so it would be a good idea to implement also this feature. The endpoint is:
 
