@@ -1,3 +1,4 @@
+![CI](https://github.com/hantczak/GitHubRepositoryViewer/actions/workflows/gradle.yml/badge.svg)
 # GitHubRepositoryViewer
 <!-- ABOUT THE PROJECT -->
 ## 🎓 About The Project
